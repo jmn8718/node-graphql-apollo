@@ -88,7 +88,7 @@ app.use('/graphiql', (0, _graphqlServerExpress.graphiqlExpress)({
   endpointURL: '/graphql'
 }));
 
-app.use('/api', _api2.default);
+app.use('/', _api2.default);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
