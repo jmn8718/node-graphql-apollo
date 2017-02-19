@@ -1,23 +1,32 @@
 const typeDefinitions = `
-type LogInRequest {
+type User {
+  _id: ID
   username: String
-  password: String
+  name: String
+  email: String
 }
 
-type LogInResponse {
+type TokenRequest {
   access_token: String
-  expires_in: Int
-  refresh_token: String
-  scope: String
   token_type: String
+  expires_in: Int
+  user: User
 }
 
 type Query {
-  logIn(username: String, password:String): LogInResponse
+  User(username: String!): User
+  Users: [User]
+}
+
+type Mutation {
+  createUser(username: String!, password: String!, name: String, email: String!): User
+  deleteUser(username: String!, token: String!): User
+  authenticateUser(username: String!, password: String!): TokenRequest
 }
 
 schema {
   query: Query
+  mutation: Mutation
 }
 `;
 

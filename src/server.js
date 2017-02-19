@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import uuid from 'node-uuid';
 
 import {
   graphqlExpress,
@@ -15,19 +16,32 @@ import Resolvers from './data/resolvers';
 
 import api from './api';
 
+require('dotenv').config();
+require('./db');
+
+
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 app.set('port', PORT);
 
 if (process.env.ENV === 'development') {
-  app.use(morgan(':id :method :url :response-time'));
+  morgan.token('id', (req) => req.id);
+
+  app.use((req, res, next) => {
+    req.id = uuid.v4();
+    next();
+  });
+  app.use(morgan(':id :remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
 }
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json({}));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
+if (process.env.ENV === 'development') {
+  app.use(cors());
+}
 
 const executableSchema = makeExecutableSchema({
   typeDefs: Schema,

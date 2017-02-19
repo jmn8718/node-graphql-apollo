@@ -1,8 +1,6 @@
 import http from 'http';
 import app from './server';
 
-require('dotenv').config();
-
 /**
  * Create HTTP server.
  */

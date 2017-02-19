@@ -15,6 +15,8 @@
     "extends": "airbnb-base"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.16.1",
     "cors": "^2.8.1",
     "dotenv": "^4.0.0",
@@ -22,9 +24,11 @@
     "graphql": "^0.9.1",
     "graphql-server-express": "^0.6.0",
     "graphql-tools": "^0.10.0",
+    "jsonwebtoken": "^7.3.0",
+    "mongoose": "^4.8.3",
     "morgan": "^1.8.1",
+    "node-uuid": "^1.4.7",
     "request": "^2.79.0",
-    "request-promise-native": "^1.0.3",
     "validator": "^6.2.1"
   },
   "devDependencies": {
