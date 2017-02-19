@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-const EXPIRES_IN = parseInt(process.env.EXPIRES_IN) || 3600;
+const EXPIRES_IN = parseInt(process.env.EXPIRES_IN, 10) || 3600;
 
 export const createToken = user => jwt.sign(
   {

@@ -26,10 +26,10 @@ const PORT = process.env.PORT || 5000;
 app.set('port', PORT);
 
 if (process.env.ENV === 'development') {
-  morgan.token('id', (req) => req.id);
+  morgan.token('id', req => req.id);
 
   app.use((req, res, next) => {
-    req.id = uuid.v4();
+    req.id = uuid.v4(); // eslint-disable-line no-param-reassign
     next();
   });
   app.use(morgan(':id :remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
@@ -51,7 +51,7 @@ const executableSchema = makeExecutableSchema({
 app.use('/graphql', graphqlExpress(request => ({
   schema: executableSchema,
   context: {
-    user: (request.headers && request.headers.Authorization) || undefined,
+    token: (request.headers && request.headers.Authorization) || undefined,
   },
 })));
 
@@ -59,7 +59,7 @@ app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
 }));
 
-app.use('/', api);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

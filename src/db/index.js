@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 let DB;
 if (process.env.ENV === 'development') {
@@ -12,12 +12,12 @@ mongoose.connect(DB);
 
 // On Connection
 mongoose.connection.on('connected', () => {
-  console.log(`Connected to database ${DB}`);
+  console.log(`Connected to database ${DB}`);  // eslint-disable-line no-console
 });
 
 // On Error
 mongoose.connection.on('error', (err) => {
-  console.error(`Database error: ${err}`);
+  console.error(`Database error: ${err}`); // eslint-disable-line no-console
 });
 
 module.exports = mongoose;

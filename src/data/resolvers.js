@@ -1,4 +1,5 @@
 import User, { getUserByUsername, addUser, deleteUser } from '../models/user';
+import Place, { addPlace, getPlaceById } from '../models/place';
 import { createToken, comparePassword, verifyToken } from '../utils';
 
 const resolveFunctions = {
@@ -13,9 +14,29 @@ const resolveFunctions = {
         });
       });
     },
-    Users(root, args) {
+    Users() {
       return new Promise((resolve, reject) => {
         User.find({}, (err, users) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(users);
+        });
+      });
+    },
+    Place(roots, args) {
+      return new Promise((resolve, reject) => {
+        getPlaceById(args.id, (err, place) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(place);
+        });
+      });
+    },
+    Places() {
+      return new Promise((resolve, reject) => {
+        Place.find({}, (err, users) => {
           if (err) {
             reject(err);
           }
@@ -37,23 +58,23 @@ const resolveFunctions = {
       });
     },
     deleteUser(root, args, context) {
+      if (!context.token) {
+        return new Error('No token provided');
+      }
       return new Promise((resolve, reject) => {
-        verifyToken(args.token, (err, decoded) => {
-          console.log(err, decoded)
+        verifyToken(context.token, (err, decoded) => {
           if (err) {
             reject(err);
           } else if (decoded.username === args.username) {
-            deleteUser(args.username, (err, user) => {
-              console.log(err, user);
-              if (err) {
-                reject(err);
+            deleteUser(args.username, (err2, user) => {
+              if (err2) {
+                reject(err2);
               }
               resolve(user);
             });
           } else {
             reject(new Error('Unauthorized operation'));
           }
-
         });
       });
     },
@@ -63,9 +84,9 @@ const resolveFunctions = {
           if (err) {
             reject(err);
           }
-          comparePassword(args.password, user.password, (err, isMatch) => {
-            if (err) {
-              reject(err);
+          comparePassword(args.password, user.password, (err2, isMatch) => {
+            if (err2) {
+              reject(err2);
             }
             if (!isMatch) {
               reject(new Error('Wrong password'));
@@ -79,7 +100,36 @@ const resolveFunctions = {
           });
         });
       });
-    }
+    },
+    createPlace(root, args, context) {
+      if (!context.token) {
+        return new Error('No token provided');
+      }
+      return new Promise((resolve, reject) => {
+        verifyToken(context.token, (err, decoded) => {
+          if (err) {
+            reject(err);
+          }
+          getUserByUsername(decoded.username, (err2, user) => {
+            if (err2) {
+              reject(err2);
+            }
+            const newPlace = new Place(args);
+            newPlace.location = {
+              lat: args.lat || 0,
+              lng: args.lng || 0,
+            };
+            newPlace.user = user;
+            addPlace(newPlace, (err3, place) => {
+              if (err3) {
+                reject(err3);
+              }
+              resolve(place);
+            });
+          });
+        });
+      });
+    },
   },
 };
 

@@ -6,7 +6,7 @@ import isEmail from 'validator/lib/isEmail';
 mongoose.Promise = require('bluebird');
 
 // User Schema
-const UserSchema = mongoose.Schema({
+export const UserSchema = mongoose.Schema({
   name: {
     type: String,
     default: '',
@@ -15,7 +15,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    validate: [ isEmail, 'Invalid email'],
+    validate: [isEmail, 'Invalid email'],
     trim: true,
   },
   username: {
@@ -37,45 +37,47 @@ export default User;
 
 export const getUserById = (id, callback) => {
   User.findById(id, callback);
-}
+};
 
 export const getUserByUsername = (username, callback) => {
   const query = {
-    username: username,
+    username,
   };
   User.findOne(query, callback);
-}
+};
 
 export const addUser = (newUser, callback) => {
   bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newUser.password, salt, (err, hash) => {
-      if (err) {
-        throw err;
+    if (err) {
+      callback(err);
+    }
+    bcrypt.hash(newUser.password, salt, (err2, hash) => {
+      if (err2) {
+        callback(err2);
       }
-      newUser.password = hash;
+      newUser.password = hash; // eslint-disable-line no-param-reassign
       newUser.save(callback);
     });
   });
-}
+};
 
 export const deleteUser = (username, callback) => {
   const query = {
-    username: username,
+    username,
   };
   User.findOne(query, (err, user) => {
     if (err) {
       callback(err);
     }
     if (user) {
-      user.remove((err, result) => {
-        if (err) {
-          callback(err);
+      user.remove((err2) => {
+        if (err2) {
+          callback(err2);
         }
-        console.log(result);
-        callback(err, user);
+        callback(err2, user);
       });
     } else {
       callback(new Error('User not found'));
     }
   });
-}
+};
