@@ -65,10 +65,7 @@ if (process.env.ENV === 'development') {
 // parse body params and attache them to req.body
 app.use(_bodyParser2.default.json({}));
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
-
-if (process.env.ENV === 'development') {
-  app.use((0, _cors2.default)());
-}
+app.use((0, _cors2.default)());
 
 var executableSchema = (0, _graphqlTools.makeExecutableSchema)({
   typeDefs: _schema2.default,
