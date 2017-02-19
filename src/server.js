@@ -38,10 +38,7 @@ if (process.env.ENV === 'development') {
 // parse body params and attache them to req.body
 app.use(bodyParser.json({}));
 app.use(bodyParser.urlencoded({ extended: true }));
-
-if (process.env.ENV === 'development') {
-  app.use(cors());
-}
+app.use(cors());
 
 const executableSchema = makeExecutableSchema({
   typeDefs: Schema,
