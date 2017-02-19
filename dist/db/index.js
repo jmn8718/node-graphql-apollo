@@ -1,6 +1,10 @@
 'use strict';
 
-var mongoose = require('mongoose');
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DB = void 0;
 if (process.env.ENV === 'development') {
@@ -10,17 +14,17 @@ if (process.env.ENV === 'development') {
 }
 
 // Connect To Database
-mongoose.connect(DB);
+_mongoose2.default.connect(DB);
 
 // On Connection
-mongoose.connection.on('connected', function () {
-  console.log('Connected to database ' + DB);
+_mongoose2.default.connection.on('connected', function () {
+  console.log('Connected to database ' + DB); // eslint-disable-line no-console
 });
 
 // On Error
-mongoose.connection.on('error', function (err) {
-  console.error('Database error: ' + err);
+_mongoose2.default.connection.on('error', function (err) {
+  console.error('Database error: ' + err); // eslint-disable-line no-console
 });
 
-module.exports = mongoose;
+module.exports = _mongoose2.default;
 //# sourceMappingURL=index.js.map

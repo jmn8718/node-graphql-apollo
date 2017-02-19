@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteUser = exports.addUser = exports.getUserByUsername = exports.getUserById = undefined;
+exports.deleteUser = exports.addUser = exports.getUserByUsername = exports.getUserById = exports.UserSchema = undefined;
 
 var _mongoose = require('mongoose');
 
@@ -23,7 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _mongoose2.default.Promise = require('bluebird');
 
 // User Schema
-var UserSchema = _mongoose2.default.Schema({
+var UserSchema = exports.UserSchema = _mongoose2.default.Schema({
   name: {
     type: String,
     default: ''
@@ -64,11 +64,14 @@ var getUserByUsername = exports.getUserByUsername = function getUserByUsername(u
 
 var addUser = exports.addUser = function addUser(newUser, callback) {
   _bcryptjs2.default.genSalt(10, function (err, salt) {
-    _bcryptjs2.default.hash(newUser.password, salt, function (err, hash) {
-      if (err) {
-        throw err;
+    if (err) {
+      callback(err);
+    }
+    _bcryptjs2.default.hash(newUser.password, salt, function (err2, hash) {
+      if (err2) {
+        callback(err2);
       }
-      newUser.password = hash;
+      newUser.password = hash; // eslint-disable-line no-param-reassign
       newUser.save(callback);
     });
   });
@@ -83,12 +86,11 @@ var deleteUser = exports.deleteUser = function deleteUser(username, callback) {
       callback(err);
     }
     if (user) {
-      user.remove(function (err, result) {
-        if (err) {
-          callback(err);
+      user.remove(function (err2) {
+        if (err2) {
+          callback(err2);
         }
-        console.log(result);
-        callback(err, user);
+        callback(err2, user);
       });
     } else {
       callback(new Error('User not found'));

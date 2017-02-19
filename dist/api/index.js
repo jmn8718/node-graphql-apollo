@@ -14,9 +14,7 @@ var router = _express2.default.Router();
 
 router.get('/', function (req, res) {
   res.json({
-    name: process.env.NAME,
-    environment: process.env.ENV,
-    expiresIn: parseInt(process.env.EXPIRES_IN)
+    name: process.env.NAME
   });
 });
 

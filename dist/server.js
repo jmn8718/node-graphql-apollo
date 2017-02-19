@@ -56,7 +56,7 @@ if (process.env.ENV === 'development') {
   });
 
   app.use(function (req, res, next) {
-    req.id = _nodeUuid2.default.v4();
+    req.id = _nodeUuid2.default.v4(); // eslint-disable-line no-param-reassign
     next();
   });
   app.use((0, _morgan2.default)(':id :remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
@@ -79,7 +79,7 @@ app.use('/graphql', (0, _graphqlServerExpress.graphqlExpress)(function (request)
   return {
     schema: executableSchema,
     context: {
-      user: request.headers && request.headers.Authorization || undefined
+      token: request.headers && request.headers.Authorization || undefined
     }
   };
 }));
@@ -88,7 +88,7 @@ app.use('/graphiql', (0, _graphqlServerExpress.graphiqlExpress)({
   endpointURL: '/graphql'
 }));
 
-app.use('/', _api2.default);
+app.use('/api', _api2.default);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

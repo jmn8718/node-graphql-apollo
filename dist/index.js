@@ -31,11 +31,11 @@ server.on('error', function (error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(bind + ' requires elevated privileges'); // eslint-disable-line no-console
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(bind + ' is already in use'); // eslint-disable-line no-console
       process.exit(1);
       break;
     default:
@@ -46,7 +46,7 @@ server.on('error', function (error) {
 server.on('listening', function () {
   var addr = server.address();
   var bind = typeof addr === 'string' ? 'Pipe ' + port : 'Port ' + port;
-  console.log(bind);
-  console.log('Listening on port: ' + _server2.default.get('port'));
+  console.log(bind); // eslint-disable-line no-console
+  console.log('Listening on port: ' + _server2.default.get('port')); // eslint-disable-line no-console
 });
 //# sourceMappingURL=index.js.map

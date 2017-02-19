@@ -15,7 +15,7 @@ var _bcryptjs2 = _interopRequireDefault(_bcryptjs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var EXPIRES_IN = parseInt(process.env.EXPIRES_IN) || 3600;
+var EXPIRES_IN = parseInt(process.env.EXPIRES_IN, 10) || 3600;
 
 var createToken = exports.createToken = function createToken(user) {
   return _jsonwebtoken2.default.sign({
