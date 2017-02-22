@@ -1,7 +1,7 @@
 ## create user
 ```
-mutation CreateUser($username: String! $password: String! $email: String!){
-  createUser(username: $username password: $password email: $email) {
+mutation CreateUser($user: UserInput) {
+  createUser(user: $user) {
     _id
     username
     name
@@ -12,9 +12,12 @@ mutation CreateUser($username: String! $password: String! $email: String!){
 
 ```
 {
-  "username": "username",
-  "password": "password",
-  "email": "email@email.com"
+  "user": {
+    "username": "user1",
+    "password": "user1",
+    "email": "user1@email.com",
+    "name": "User 1"
+  }
 }
 ```
 
@@ -31,15 +34,15 @@ mutation AuthenticaUser($username: String! $password: String!){
 
 ```
 {
-  "username": "username",
-  "password": "password"
+  "username": "user1",
+  "password": "user1"
 }
 ```
 
 ## delete user
 ```
 mutation AuthenticaUser($username: String! $token: String!){
-  deleteUser(username: $username token:$token) {
+  deleteUser(username: $username) {
     _id
     username
     name
@@ -50,10 +53,37 @@ mutation AuthenticaUser($username: String! $token: String!){
 
 ```
 {
-  "username": "username",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4YThlM2EzNDQ2NzRhNmMxNTY0NzJkZCIsInVzZXJuYW1lIjoidXNlcm5hbWUiLCJpYXQiOjE0ODc0NjM0NTEsImV4cCI6MTQ4NzQ2NzA1MX0.1BW_1QaI5XTsHC-Pxl8aWhxKgmH6vHM1jlnzlb7KUJs"
+  "username": "username"
+}
+```
+
+## create place
+```
+mutation CreatePlace($place: PlaceInput) {
+  createPlace(place: $place) {
+    _id
+    name
+    description
+    category
+    label
+    location {
+      lat
+      lng
+    }
+  }
 }
 ```
 
 ```
+{
+  "place": {
+    "name": "place2",
+    "description": "dasdasdasd",
+    "location": {
+      "lat": 5.9,
+      "lng": 18.0
+    },
+    "label": "chinesse"
+  }
+}
 ```

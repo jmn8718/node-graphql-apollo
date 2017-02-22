@@ -34,7 +34,7 @@ const resolveFunctions = {
         });
       });
     },
-    Places() {
+    allPlaces() {
       return new Promise((resolve, reject) => {
         Place.find({}, (err, users) => {
           if (err) {
@@ -47,7 +47,7 @@ const resolveFunctions = {
   },
   Mutation: {
     createUser(root, args) {
-      const newUser = new User(args);
+      const newUser = new User(args.user);
       return new Promise((resolve, reject) => {
         addUser(newUser, (err, user) => {
           if (err) {
@@ -114,11 +114,7 @@ const resolveFunctions = {
             if (err2) {
               reject(err2);
             }
-            const newPlace = new Place(args);
-            newPlace.location = {
-              lat: args.lat || 0,
-              lng: args.lng || 0,
-            };
+            const newPlace = new Place(args.place);
             newPlace.user = user;
             addPlace(newPlace, (err3, place) => {
               if (err3) {

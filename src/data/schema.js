@@ -6,12 +6,24 @@ type User {
   email: String
 }
 
+input UserInput {
+  username: String!
+  name: String
+  email: String!
+  password: String!
+}
+
 # The Location scalar type represents a geolocation point.
 type Location {
   # Latitude of the location point
   lat: Float
   # Longitude of the location point
   lng: Float
+}
+
+input LocationInput {
+  lat: Float!
+  lng: Float!
 }
 
 type Place {
@@ -22,6 +34,14 @@ type Place {
   label: String
   location: Location
   creator: User
+}
+
+input PlaceInput {
+  name: String!
+  description: String!
+  category: String
+  label: String
+  location: LocationInput
 }
 
 type TokenRequest {
@@ -35,14 +55,14 @@ type Query {
   User(username: String!): User
   Users: [User]
   Place(id: ID): Place
-  Places: [Place]
+  allPlaces: [Place]
 }
 
 type Mutation {
-  createUser(username: String!, password: String!, name: String, email: String!): User
+  createUser(user: UserInput): User
   deleteUser(username: String!): User
   authenticateUser(username: String!, password: String!): TokenRequest
-  createPlace(name: String!, description: String!, category: String, label: String, lat: Float!, lng: Float!): Place
+  createPlace(place: PlaceInput): Place
 }
 
 schema {
