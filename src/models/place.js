@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { UserSchema } from './user';
+import { CommentSchema } from './comment';
 
 // Use bluebird
 mongoose.Promise = require('bluebird');
@@ -35,7 +36,11 @@ const PlaceSchema = mongoose.Schema({
       default: 0,
     },
   },
-  creator: UserSchema,
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  comments: [CommentSchema],
 }, {
   timestamps: true,
 });
