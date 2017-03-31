@@ -52,9 +52,9 @@ app.use('/graphql', graphqlExpress(request => ({
   },
 })));
 
-// app.use('/graphiql', graphiqlExpress({
-//   endpointURL: '/graphql',
-// }));
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql',
+}));
 
 app.use('/api', api);
 
