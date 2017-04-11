@@ -23,18 +23,7 @@ const PlaceSchema = mongoose.Schema({
     default: '',
   },
   location: {
-    lat: {
-      type: Number,
-      min: -90,
-      max: 90,
-      default: 0,
-    },
-    lng: {
-      type: Number,
-      min: -180,
-      max: 180,
-      default: 0,
-    },
+    coordinates: [Number],
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,

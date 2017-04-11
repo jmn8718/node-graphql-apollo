@@ -26,6 +26,11 @@ input LocationInput {
   lng: Float!
 }
 
+input BoxInput {
+  bottomLeftPoint: LocationInput,
+  topRightPoint: LocationInput,
+}
+
 type Place {
   _id: ID
   name: String
@@ -56,6 +61,8 @@ type Query {
   Users: [User]
   Place(id: ID): Place
   allPlaces: [Place]
+  places(location: LocationInput, distance: Float): [Place]
+  places(location: LocationInput, distance: Float, box: BoxInput): [Place]
 }
 
 type Mutation {

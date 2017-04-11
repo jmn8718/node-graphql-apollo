@@ -44,6 +44,35 @@ const resolveFunctions = {
         });
       });
     },
+    places(root, args) {
+      const { location, distance } = args;
+      return new Promise((resolve, reject) => {
+        Place.find({
+          location: {
+            $nearSphere: {
+              $geometry: {
+                type: "Point",
+                coordinates: [ location.lng, location.lat ]
+              },
+              $maxDistance: distance || 1000
+            }
+          }
+        }, (err, users) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(users);
+        });
+      });
+    },
+  },
+  Place: {
+    location(place) {
+      return {
+        lat: place.location.coordinates[1],
+        lng: place.location.coordinates[0],
+      }
+    },
   },
   Mutation: {
     createUser(root, args) {
